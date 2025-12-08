@@ -10,10 +10,16 @@ Training can be done using an arbitrary value of $L$ per layer. To update this, 
 
 After updating the value of $L$, you can train by using the following command:
 
+**For CIFAR-10 and CIFAR-100**
 ```
-python3 main_train.py -data={cifar10/cifar100/imagenet} -arch={vgg16/resnet18/resnet34} -epochs={num_epochs} --id={myid}
+python3 main_train.py -data={cifar10/cifar100} -arch={vgg16/resnet18/resnet34} -epochs={num_epochs} --id={myid}
 ```
 
+**For ImageNet**
+```
+python main.py -a {vgg16/resnet18/resnet34} --dist-url 'tcp://127.0.0.1:FREEPORT' --dist-backend 'nccl' --multiprocessing-distributed --world-size 1 --rank 0 [imagenet-folder with train and val folders]
+
+```
 Checkpoints will be saved for every epoch, so that training can be resumed from any arbitrary point. In order to train as per the algorithm given in the paper for Adaptive Layerwise activation, you need to run two training iterations. First, create the initial checkpoint after 200 epochs (for CIFAR-10 and CIFAR-100) or 80 epochs (for ImageNet), and then update the value of $L$ layerwise, as specified above. Then, training can be resumed using the `--resume_from_ckpt=1` argument for the remaining epochs.  
 
 # Inference
@@ -52,8 +58,6 @@ Use the script `get_stats.py` to get the value of the AL metric. The list `npy_a
 
 Use the script `get_Teff.py` to get the value of $T_{eff}$. Update the value of `Tarr` at [line 76](https://github.com/BrainSeek-Lab/PASCAL/blob/1705941c8ec96a2e3f4ce216ec7751b4d5d8986a/get_Teff.py#L76) to the values of $L$ for each layer. Also, update the variable corresponding to the model and dataset at [line 77](https://github.com/BrainSeek-Lab/PASCAL/blob/1705941c8ec96a2e3f4ce216ec7751b4d5d8986a/get_Teff.py#L77). 
 
-# Datasets
-
-This repository can be used to train for the CIFAR-10 and CIFAR-100 datasets off the shelf. However, ImageNet training requires Distributed Data Parallel (DDP), whose boilerplate code is available in [pyTorch's official repository](https://github.com/pytorch/examples/tree/main/imagenet). Inference can be done for all three datasets, albeit without Distributed Data Parallel. 
+# Acknowledgements
 
 This repository draws from the repository for the paper "Optimal ANN-SNN conversion for high-accuracy and ultra-low-latency spiking neural networks".
