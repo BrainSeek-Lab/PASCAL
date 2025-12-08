@@ -50,7 +50,7 @@ Use the script `get_stats.py` to get the value of the AL metric. The list `npy_a
 
 # Obtaining the value of $T_{eff}$ 
 
-Use the script `get_Teff.py` to get the value of $T_{eff}$. Update the value of `Tarr` at line 76 to the values of $L$ for each layer. Also, update the variable corresponding to the model and dataset at line 77. 
+Use the script `get_Teff.py` to get the value of $T_{eff}$. Update the value of `Tarr` at [line 76](https://github.com/BrainSeek-Lab/PASCAL/blob/1705941c8ec96a2e3f4ce216ec7751b4d5d8986a/get_Teff.py#L76) to the values of $L$ for each layer. Also, update the variable corresponding to the model and dataset at [line 77](https://github.com/BrainSeek-Lab/PASCAL/blob/1705941c8ec96a2e3f4ce216ec7751b4d5d8986a/get_Teff.py#L77). 
 
 # Datasets
 
