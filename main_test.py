@@ -78,7 +78,7 @@ def main():
                 state_dict[k[:-2]+'thresh'] = state_dict.pop(k)
             #print(f"In VGG: Index = {index}")
     
-    ########### FOR RESNET18 ################################
+    ########### FOR RESNET18 AND RESNET34 ################################
     else: 
         for k in keys:
             if((k[-4:] == 'bias' or k[-12:] == 'running_mean') and (k!= 'conv1.1.weight') and (k!= 'conv1.1.bias') and (k!= 'conv1.1.running_mean')):

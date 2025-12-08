@@ -41,8 +41,16 @@ levels = [4,4]+[2,2]+[4,4]+[1,1]+[4,4]+[2,2,4,4]+[2,2]+[1,1]+[4,4]+[2,2,4,4]+[2,
 
 ## Running Inference 
 ```
-python3 main_test.py -data={cifar10/cifar100/imagenet -arch={vgg16/resnet18/resnet34} --id={myid} -arch={vgg16/resnet18/resnet34}
+python3 main_test.py -data={cifar10/cifar100/imagenet} -arch={vgg16/resnet18/resnet34} --id={myid} -arch={vgg16/resnet18/resnet34}
 ```
+
+# Obtaining the AL Metric
+
+Use the script `get_stats.py` to get the value of the AL metric. The list `npy_arr_list` should contain the layerwise outputs after QCFS activation. The script will output the value of the AL metric for each layer. 
+
+# Obtaining the value of $T_{eff}$ 
+
+Use the script `get_Teff.py` to get the value of $T_{eff}$. Update the value of `Tarr` at line 76 to the values of $L$ for each layer. Also, update the variable corresponding to the model and dataset at line 77. 
 
 # Datasets
 

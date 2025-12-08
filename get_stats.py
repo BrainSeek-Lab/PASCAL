@@ -21,7 +21,7 @@ def calculate_A(arr,num_bins, scaling_factor = 1):
     return A
 
 def calculate_kurtosis(arr,num_bins):
-    arr_new, val_list = np.histogram(arr, num_bins)
+    arr_new, _ = np.histogram(arr, num_bins)
     mean_val = np.mean(arr_new)
     std_dev = np.std(arr_new)
     power4 = (arr_new - mean_val)**4
@@ -39,16 +39,12 @@ def calculate_skewness(arr,num_bins):
     return skewness
 
 def calculate_b(arr,num_bins):
-
     k = calculate_kurtosis(arr, num_bins)
     g = calculate_skewness(arr,num_bins)
     b = (g**2+1)*(k+3*(num_bins)**2/((num_bins-2)*(num_bins-3))) 
-    #print(f"K = {k}, g = {g}, b = {b}")
     return b
 
 def calculate_metric(arr, num_bins = 5):
-    arr_new, val_list = np.histogram(arr, num_bins)
-    sum_val = np.sum(arr_new)
     metric = calculate_A(arr,num_bins)*(calculate_b(arr,num_bins))
     return metric
 

@@ -15,8 +15,6 @@ class MergeTemporalDim(nn.Module):
         self.T = T
 
     def forward(self, x_seq: torch.Tensor):
-        #print(f"Dimensions before Merging = {x_seq.shape}")
-        #print(f"Dimensions after Merging = {x_seq.flatten(0,1).contiguous().shape}")
         return x_seq.flatten(0, 1).contiguous()
 
 class ExpandTemporalDim(nn.Module):
@@ -78,10 +76,8 @@ class IF(nn.Module):
         self.merge = MergeTemporalDim(self.list[self.index])
 
     def forward(self, x):
-        global spike_rate
         if self.T > 0:
             if(self.index == 0): 
-                #print(f"Result of Convolution = {x[0][0]}")
                 x = x / self.thresh
                 x = torch.clamp(x, 0, 1)
                 x = myfloor(x*self.L+0.5)/self.L
@@ -92,13 +88,9 @@ class IF(nn.Module):
                     spike = self.act(x-thre,self.gama)*thre
                     x = x - spike
                     spike_pot.append(spike)
-                    #print(f"In loop, {torch.unique(x)/thre}")
                     
                 x = torch.stack(spike_pot, dim = 0) 
                 spike_rate[self.index] = spike_rate[self.index] + torch.mean(x/thre)*self.L
-                #output = (x*self.L).mean(0)
-                #print(f"Out of {torch.numel(output)}, Difference = {torch.count_nonzero(output-x1)}. {torch.unique(output-x1)}")   
-                #print(f"Trial using Semi-SNN =  {torch.unique(output)/thre} ,  using ANN = {torch.unique(x1)/thre}")
                 x = self.merge(x)
 
                 return x       
@@ -107,7 +99,6 @@ class IF(nn.Module):
                 mem = 0.5*thre
                 x = self.expand(x) 
                 x1 = x.mean(0)*self.list[self.index-1]
-                #print(f"Result of Convolution = {x1[0][0]}")
                 x1 = x1 / self.thresh
                 x1 = torch.clamp(x1, 0, 1)
                 x1 = myfloor(x1*self.L+0.5)/self.L
@@ -153,13 +144,7 @@ class IF(nn.Module):
                         spike = self.act(thre-mem,self.gama) * thre
                         mem = mem - spike
                         spike_pot.append(spike)
-                        #print(f"Unique in each spike = {torch.unique(spike)}")
-                x = torch.stack(spike_pot, dim = 0)
-                #spike_rate[self.index] = spike_rate[self.index] + torch.mean(x/thre)*self.L
-                #print(f"Index = {self.index}, spike rate = {spike_rate[self.index]}, size of layer = {x.size()}")
-                
-                #output = (x*self.L).mean(0)
-                #print(f"Out of {torch.numel(output)}, Difference = {torch.count_nonzero(output-x1)}. {torch.unique(output-x1)}")   
+                x = torch.stack(spike_pot, dim = 0)   
                 x = self.merge(x)
                 return x  
         else:
@@ -170,9 +155,6 @@ class IF(nn.Module):
 
             return x
 def add_dimention(x, T):
-    #print(f"Dimension Before Unsqueeze = {x.shape}")
     x.unsqueeze_(1) 
-    #print(f"Dimension After Unsqueeze = {x.shape}")
     x = x.repeat(T, 1, 1, 1, 1)
-    #print(f"Dimension After Repeat = {x.shape}")
     return x
