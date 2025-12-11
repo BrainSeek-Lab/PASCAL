@@ -61,3 +61,20 @@ Use the script `get_Teff.py` to get the value of $T_{eff}$. Update the value of 
 # Acknowledgements
 
 This repository draws from the repository for the paper "Optimal ANN-SNN conversion for high-accuracy and ultra-low-latency spiking neural networks".
+
+# Citation
+
+If you find this repository and code useful for your research, please use the following BibTeX to cite our work. 
+
+```bibtex
+@article{
+ramesh2025pascal,
+title={{PASCAL}: Precise and Efficient {ANN}- {SNN} Conversion using Spike Accumulation and Adaptive Layerwise Activation},
+author={Pranav Ramesh and Gopalakrishnan Srinivasan},
+journal={Transactions on Machine Learning Research},
+issn={2835-8856},
+year={2025},
+url={https://openreview.net/forum?id=kIdB7Xp1Iv},
+note={}
+}
+```
